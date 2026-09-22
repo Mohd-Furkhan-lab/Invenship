@@ -13,12 +13,12 @@ def userlogin(data):
         user = get_user(db,email)
         if user  is None:
             raise HTTPException(404,detail="User Not Found")
-        auth = checkpw(password.encode("utf-8"),user.password.encode('utf-8'))
-        if auth is None:
+        auth = checkpw(password.encode('utf-8'),user.get("password").encode('utf-8'))
+        if auth == False:
             raise HTTPException(401,detail="Invalid Credentials")
-        access_token = create_access_token(user.uid,user.role)
-        refresh_token = create_refresh_token(user.uid,user.role)
-        return {"tokens" : {"access" : access_token, "refresh" : refresh_token}}
+        access_token = create_access_token(user.get("uid"),user.get("role"))
+        refresh_token = create_refresh_token(user.get("uid"),user.get("role"))
+        return [access_token,refresh_token]
 
 def istokenrevoked(db,jit):
     if r.get(f"blacklist:{jit}"):
@@ -42,15 +42,15 @@ def changepassword(data,payload):
         raise HTTPException(401,detail="Auth Payload Missing")
     with SesssionLocal() as db :
         istokenrevoked(db,payload.get("jti"))
-        user = get_details(db,payload.get("userid"))
+        user = get_user(db,userid=payload.get("userid"))
         if user is None:
             raise HTTPException(404,detail = "User Not Found")
         old_password,new_password = data.oldpassword,data.newpassword
-        is_valid_password = checkpw(old_password.encode('utf-8'),user.password.encode('utf-8'))
+        is_valid_password = checkpw(old_password.encode('utf-8'),user.get("password").encode('utf-8'))
         if is_valid_password is None:
             raise HTTPException(401,detail="Invalid Old Password")
-        new_hash = hashpw(new_password.encode('utf-8'),gensalt())
-        res = change_password(db,payload.get("userid"),new_hash)
+        new_hash = hashpw(new_password.encode('utf-8'),gensalt()).decode('utf-8')
+        res = change_password(db,payload.get("userid"),str(new_hash))
         db.commit()
         if res is None:
             raise HTTPException(500,detail="Internal Server Error") 
@@ -72,5 +72,5 @@ def refreshtoken(rpayload):
         new_token = create_access_token(rpayload.get("userid"),rpayload.get("role"))
         if new_token is None:
             raise HTTPException(500,detail="Internal Server Error")
-        return {"new_token" : new_token}
+        return  new_token
     

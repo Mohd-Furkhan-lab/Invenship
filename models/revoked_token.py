@@ -20,5 +20,5 @@ def revoketoken(db,jti,expires_at,revoked):
     return True
 
 def is_revoked(db,jti):
-    token = db.query(TokenBlacklist.jti == jti).first()
+    token = db.query(TokenBlacklist).filter(TokenBlacklist.jti == jti).first()
     return token

@@ -13,7 +13,7 @@ class User(Base):
 #User Queries
 def get_details(db,uid):
     user = db.query(User.email,User.username).filter(User.uid == uid).first()
-    return user
+    return user._asdict()
 
 def change_password(db,uid,new_password):
     user = db.query(User).filter(User.uid == uid).first()
@@ -24,9 +24,12 @@ def change_password(db,uid,new_password):
 
 
 #Admin Queries
-def get_user(db,email):
-    user =  db.query(User.uid,User.username,User.email,User.role).filter(User.email == email).first()
-    return user
+def get_user(db,email=None,userid=None):
+    if email :
+        user =  db.query(User.uid,User.username,User.email,User.role,User.password).filter(User.email == email).first()
+    if userid:
+        user =  db.query(User.uid,User.username,User.email,User.role,User.password).filter(User.uid == userid).first()
+    return user._asdict()
 
 def add_user(db,username,email,password,role):
     user = User(
