@@ -1,5 +1,5 @@
 from models.products import get_products,add_product,update_product_details,delete_product
-from models.category import get_category,add_category,delete_category
+from models.category import get_category,add_category,delete_category,get_all_categories
 from config.database import SesssionLocal
 from fastapi import HTTPException
 from cloudinary import uploader
@@ -15,6 +15,12 @@ def imguploader(isadmin,file):
     if isadmin:
         upload = uploader.upload(file.file,resource_type="auto")
         return upload.get("secure_url")
+
+def getcategories(isadmin):
+    if isadmin:
+        with SesssionLocal() as db:
+            categories = get_all_categories(db)
+            return {"categories" : categories}
 
 def addcategory(isadmin,name):
     if isadmin:

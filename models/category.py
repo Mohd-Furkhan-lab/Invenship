@@ -10,6 +10,10 @@ def get_category(db,cname):
     category = db.query(Category).filter(Category.cname == cname.lower()).first()
     return category
 
+def get_all_categories(db):
+    categories = db.query(Category).all()
+    return categories
+
 def add_category(db,cname):
     category = Category(cname = cname.lower())
     db.add(category)
