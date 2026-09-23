@@ -38,8 +38,6 @@ def getinfo(payload):
         return {"details" : details}
 
 def changepassword(data,payload):
-    if payload is None:
-        raise HTTPException(401,detail="Auth Payload Missing")
     with SesssionLocal() as db :
         istokenrevoked(db,payload.get("jti"))
         user = get_user(db,userid=payload.get("userid"))
@@ -47,7 +45,7 @@ def changepassword(data,payload):
             raise HTTPException(404,detail = "User Not Found")
         old_password,new_password = data.oldpassword,data.newpassword
         is_valid_password = checkpw(old_password.encode('utf-8'),user.get("password").encode('utf-8'))
-        if is_valid_password is None:
+        if is_valid_password == False:
             raise HTTPException(401,detail="Invalid Old Password")
         new_hash = hashpw(new_password.encode('utf-8'),gensalt()).decode('utf-8')
         res = change_password(db,payload.get("userid"),str(new_hash))
