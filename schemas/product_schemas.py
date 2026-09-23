@@ -8,6 +8,7 @@ class AddProduct(BaseModel):
     stock : int
     size : str
     url : str
+    category : str
 
 class GetProducts(BaseModel):
     name : Optional[str] = None

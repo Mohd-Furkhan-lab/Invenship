@@ -9,8 +9,6 @@ def getproducts(isadmin,data):
         with SesssionLocal() as db:
             name,brand,size = data.name,data.brand,data.size
             products = get_products(db,name,brand,size)
-            if products is None:
-                raise HTTPException(404,detail="No Products Found")
             return {"products" : products}
 
 def imguploader(isadmin,file):
@@ -23,11 +21,12 @@ def addcategory(isadmin,name):
         with SesssionLocal() as db:
             isexisting = get_category(db,name)
             if isexisting:
-                raise HTTPException(404,detail="Category Already Exists")
+                raise HTTPException(309,detail="Category Already Exists")
             res = add_category(db,name)
             db.commit()
             if res is None:
                 raise HTTPException(500,detail="Internal Server Error")
+            return {"message" : f"{name} added successfully"}
 
 def deletecategory(isadmin,name):
     if isadmin:
@@ -47,7 +46,7 @@ def addproduct(isadmin,data):
             category = get_category(db,data.category)
             if category is None:
                 raise HTTPException(404,detail="Category Not Found")
-            is_existing = get_products(db,data.name,data.brand,data.price)
+            is_existing = get_products(db,data.name,data.brand,data.size)
             if is_existing:
                 raise HTTPException(309,detail="Product Already Exists")
             res = add_product(db,category.cid,data.name,data.url,data.size,data.brand,data.price,data.stock)
@@ -60,13 +59,13 @@ def updateproduct(isadmin,data,name):
     if isadmin:
         with SesssionLocal() as db:
             product = get_products(db,name)
-            if product is None:
+            if product == []:
                 raise HTTPException(404,detail="Product Not Found")
-            res = update_product_details(db,product.pid,data.price,data.stock)
+            res = update_product_details(db,product[0].pid,data.price,data.stock)
             db.commit()
             if res is None:
                 raise HTTPException(500,detail="Internal Server Error")
-            return {"mesage" : f"{product.pname} derails updated successfully"}
+            return {"mesage" : f"{product[0].pname} details updated successfully"}
 
 def deleteproduct(isadmin,name):
     if isadmin:
@@ -74,7 +73,7 @@ def deleteproduct(isadmin,name):
             prodcut = get_products(db,name)
             if prodcut is None:
                 raise HTTPException(404,detail="Product Not Found ")
-            res = delete_product(db,prodcut.pid)
+            res = delete_product(db,prodcut[0].pid)
             db.commit()
             if res is None:
                 raise HTTPException(500,detail="Internal Server Error")

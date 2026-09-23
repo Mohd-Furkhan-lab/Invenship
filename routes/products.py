@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends,UploadFile,File
 from dependecies.admin_dependecy import is_admin
 from services.product_services import getproducts,addproduct,updateproduct,deleteproduct,imguploader,addcategory,deletecategory
 from schemas.product_schemas import GetProducts,AddProduct,UpdateProducts
@@ -13,8 +13,12 @@ def fetch_products(data : GetProducts,isadmin = Depends(is_admin)):
 def add_product(data:AddProduct,isadmin = Depends(is_admin)):
     return addproduct(isadmin,data)
 
+@products.post('/upload')
+def upload_productimg(isadmin = Depends(is_admin),file : UploadFile = File(...)):
+    return imguploader(isadmin,file)
+
 @products.put('/{name}')
-def update_products(name,data:updateproduct,isadmin = Depends(is_admin)):
+def update_products(name,data:UpdateProducts,isadmin = Depends(is_admin)):
     return updateproduct(isadmin,data,name)
 
 @products.delete('/{name}')

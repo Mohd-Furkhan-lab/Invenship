@@ -28,7 +28,7 @@ def get_products(db,pname=None, brand=None, size=None):
 def add_product(db,cid,pname,url,size,brand,price,stock):
     product = Products(
         cid = cid,
-        panem = pname,
+        pname = pname,
         pimage = url,
         size = size,
         brand = brand,
