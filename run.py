@@ -3,6 +3,7 @@ from models.user import User
 from models.revoked_token import TokenBlacklist
 from models.category import Category
 from models.products import Products
+from models.sales import Sales
 from config.redis import r
 from config.cloudinary import cloudinary
 from config.database import Base,engine
