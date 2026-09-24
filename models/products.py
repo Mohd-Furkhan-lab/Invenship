@@ -53,4 +53,9 @@ def delete_product(db,pid):
     db.delete(product)
     db.flush()
     return product
-     
+
+def update_stock(db,pid,new_count):
+    product = db.query(Products).filter(Products.pid == pid).first()
+    product.stock = new_count
+    db.flush()
+    return product
