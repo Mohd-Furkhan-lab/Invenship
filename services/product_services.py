@@ -78,7 +78,7 @@ def deleteproduct(isadmin,name):
         with SesssionLocal() as db:
             prodcut = get_products(db,name)
             if prodcut is None:
-                raise HTTPException(404,detail="Product Not Found ")
+                raise HTTPException(404,detail="Product Not Found")
             res = delete_product(db,prodcut[0].pid)
             db.commit()
             if res is None:
