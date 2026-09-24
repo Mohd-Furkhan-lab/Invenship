@@ -30,6 +30,7 @@ def add_sales(db,name,size,quantity,price):
 
 def delete_sales(db):
     sales = db.query(Sales).all()
-    db.delete(sales)
+    for s in sales:
+        db.delete(s)
     db.flush()
     return sales
