@@ -2,13 +2,15 @@ from config.database import Base
 from sqlalchemy import Column,Integer,String,Float,DateTime,ForeignKey
 from datetime import datetime,UTC
 
+
 class Purchase(Base):
     __tablename__ = "purchase"
     puid = Column(Integer,primary_key=True,autoincrement=True)
     pname = Column(String,nullable=False)
+    size = Column(String,nullable=False)
     quantity = Column(Integer,nullable=False)
     price = Column(Float,nullable=False)
-    supplier = Column(Integer,ForeignKey("supplier.suid",ondelete="CASCADE"))
+    supplier = Column(Integer,ForeignKey("suppliers.suid",ondelete="CASCADE"))
     timestamp = Column(DateTime,default=datetime.now(UTC))
 
 
@@ -16,9 +18,10 @@ def get_purchases(db):
     purchases = db.query(Purchase).all()
     return {"purchases" : purchases}
 
-def add_purchase(db,pname,quantity,price,supplier,):
+def add_purchase(db,pname,size,quantity,price,supplier,):
     purchse = Purchase(
         pname = pname,
+        size = size,
         quantity = quantity,
         price = price,
         supplier = supplier
