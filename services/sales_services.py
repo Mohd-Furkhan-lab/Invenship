@@ -32,3 +32,4 @@ def deletesales(is_auth):
             if res is None:
                 raise HTTPException(500,detail="Internal Server Error")
             return {"message" : "Sales Deleted Successfully"}
+
