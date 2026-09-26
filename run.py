@@ -5,6 +5,7 @@ from models.category import Category
 from models.products import Products
 from models.sales import Sales
 from models.suppliers import Supplier
+from models.purchases import Purchase
 from config.redis import r
 from config.cloudinary import cloudinary
 from config.database import Base,engine
