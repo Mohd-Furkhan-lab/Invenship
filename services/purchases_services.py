@@ -26,12 +26,13 @@ def addpurchases(is_admin,data):
         return {"message" : "Purchase Added"}
 
 def clearhistory(is_admin):
-    with SesssionLocal() as db:
-        purchase = get_purchases(db)
-        if purchase is None:
-            raise HTTPException(404,detail="Purchase History Not Found")
-        res = delete_purchase(db)
-        db.commit()
-        if res is None:
-            raise HTTPException(500,detail="Internal Server Error")
-        return {"message" : "purchase history cleared"}
+    if is_admin:
+        with SesssionLocal() as db:
+            purchase = get_purchases(db)
+            if purchase is None:
+                raise HTTPException(404,detail="Purchase History Not Found")
+            res = delete_purchase(db)
+            db.commit()
+            if res is None:
+                raise HTTPException(500,detail="Internal Server Error")
+            return {"message" : "purchase history cleared"}
