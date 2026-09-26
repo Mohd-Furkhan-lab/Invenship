@@ -4,8 +4,8 @@ from config.database import SesssionLocal
 from fastapi import HTTPException
 from cloudinary import uploader
 
-def getproducts(isadmin,name,brand,size):
-    if isadmin:
+def getproducts(is_auth,name,brand,size):
+    if is_auth:
         with SesssionLocal() as db:
             products = get_products(db,name,brand,size)
             return {"products" : products}
@@ -15,8 +15,8 @@ def imguploader(isadmin,file):
         upload = uploader.upload(file.file,resource_type="auto")
         return upload.get("secure_url")
 
-def getcategories(isadmin):
-    if isadmin:
+def getcategories(isauth):
+    if isauth:
         with SesssionLocal() as db:
             categories = get_all_categories(db)
             return {"categories" : categories}

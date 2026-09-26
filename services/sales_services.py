@@ -24,8 +24,8 @@ def addsales(is_auth,data):
                 raise HTTPException(500,detail="Internal Server Error")
             return {"message" : "Sales Added Successfully"}
 
-def deletesales(is_auth):
-    if is_auth:
+def deletesales(isadmin):
+    if isadmin:
         with SesssionLocal() as db:
             res = delete_sales(db)
             db.commit()

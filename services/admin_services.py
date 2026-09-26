@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from models.user import get_user,add_user,update_role,delete_user
 from config.database import SesssionLocal
+from bcrypt import hashpw,gensalt
 
 def getusers(is_admin,email):
     if is_admin:
@@ -16,7 +17,8 @@ def adduser(is_admin,data):
             user = get_user(db,data.email)
             if user:
                 raise HTTPException(309,detail="User Already Exists")
-            res = add_user(db,data.name,data.email,data.password,data.role)
+            hash_pw = hashpw(data.password.encode('utf-8'),gensalt()).decode('utf-8')
+            res = add_user(db,data.name,data.email,hash_pw,data.role)
             db.commit()
             if res is None:
                 raise HTTPException(500,detail="Internal Server Error")

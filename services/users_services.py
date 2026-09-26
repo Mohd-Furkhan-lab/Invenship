@@ -8,6 +8,7 @@ from config.redis import r
 import time
 
 def userlogin(data):
+    print(data)
     with SesssionLocal() as db:
         email,password = data.email,data.password
         user = get_user(db,email)
