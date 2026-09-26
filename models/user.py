@@ -27,9 +27,17 @@ def change_password(db,uid,new_password):
 def get_user(db,email=None,userid=None):
     if email :
         user =  db.query(User.uid,User.username,User.email,User.role,User.password).filter(User.email == email).first()
+        if user:
+            return user._asdict()
+        return None
     if userid:
         user =  db.query(User.uid,User.username,User.email,User.role,User.password).filter(User.uid == userid).first()
-    return user._asdict()
+        if user:
+            return user._asdict()
+        return None
+    user = db.query(User).all()
+    if user:
+        return user
 
 def add_user(db,username,email,password,role):
     user = User(
@@ -48,8 +56,8 @@ def update_role(db,email,new_role):
     db.flush()
     return user
 
-def delete_user(db,email):
-    user = db.query(User).filter(User.email == email).first()
+def delete_user(db,uid):
+    user = db.query(User).filter(User.uid == uid).first()
     db.delete(user)
     db.flush()
     return user

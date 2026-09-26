@@ -4,9 +4,11 @@ from routes.products import products
 from routes.sales import sales
 from routes.suppliers import suppliers
 from routes.purchases import purchase
+from routes.admin import admin
 
 app = FastAPI()
 app.include_router(users)
+app.include_router(admin)
 app.include_router(products)
 app.include_router(sales)
 app.include_router(suppliers)
