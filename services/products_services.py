@@ -4,10 +4,9 @@ from config.database import SesssionLocal
 from fastapi import HTTPException
 from cloudinary import uploader
 
-def getproducts(isadmin,data):
+def getproducts(isadmin,name,brand,size):
     if isadmin:
         with SesssionLocal() as db:
-            name,brand,size = data.name,data.brand,data.size
             products = get_products(db,name,brand,size)
             return {"products" : products}
 
