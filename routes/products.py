@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Depends,UploadFile,File
 from dependecies.admin_dependecy import is_admin
-from services.product_services import getproducts,addproduct,updateproduct,deleteproduct,imguploader,addcategory,deletecategory,getcategories
+from services.products_services import getproducts,addproduct,updateproduct,deleteproduct,imguploader,addcategory,deletecategory,getcategories
 from schemas.product_schemas import GetProducts,AddProduct,UpdateProducts
 
 products = APIRouter(prefix="/products",tags=["products"])

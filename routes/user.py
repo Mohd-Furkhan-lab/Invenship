@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Depends,Response
 from dependecies.user_dependency import get_access_payload,get_refresh_payload
-from services.user_services import getinfo,refreshtoken,userlogin,userlogout,changepassword
+from services.users_services import getinfo,refreshtoken,userlogin,userlogout,changepassword
 from schemas.user_schemas import Login,NewPassword
 users = APIRouter(prefix="/users",tags=["users"])
 
