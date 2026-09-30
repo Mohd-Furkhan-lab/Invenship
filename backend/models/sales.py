@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey, func
-from models import Sales, Products
+from models.products import  Products
 from config.database import Base
 
 

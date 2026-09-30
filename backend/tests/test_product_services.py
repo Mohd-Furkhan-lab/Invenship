@@ -238,7 +238,6 @@ def test_imageuploader():
     with patch("services.product_services.uploader.upload") as mock_upload:
         mock_upload.return_value = UploadedFile
         res = imguploader(True,File())
-        print(res)
         assert res == "https://example.com/image.jpg"
 
 def test_imageuploader_notadmin():
