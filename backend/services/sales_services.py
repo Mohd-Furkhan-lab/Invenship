@@ -17,7 +17,7 @@ def addsales(is_auth,data):
                 raise HTTPException(404,detail="Product Not Found")
             if product[0].stock - data.quantity < 0:
                 raise HTTPException(404,detail="Stock is empty")
-            res = add_sales(db,data.name,data.size,data.quantity,data.price)
+            res = add_sales(db,product[0].pid,data.quantity,data.price)
             res = update_stock(db,product[0].pid,product[0].stock-data.quantity)
             db.commit()
             if res is None:
