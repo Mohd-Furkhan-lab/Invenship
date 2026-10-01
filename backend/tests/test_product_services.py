@@ -40,21 +40,21 @@ class Product():
 
 #Get Products
 def test_getproducts():
-    with patch("services.product_services.get_products") as mock_products:
+    with patch("services.products_services.get_products") as mock_products:
         product = [Product()]
         mock_products.return_value = product
-        result = getproducts(True,Data())
+        result = getproducts(True,Data(),"Nike","M")
         assert result == {"products" : product} 
 
 def test_getproducts_noadmin():
-    result =  getproducts(False,Data)
+    result =  getproducts(False,Data,"Nike","M")
     assert result == None
 
 #Add Products
 def test_addproducts():
-    with patch("services.product_services.get_category") as mock_getcategory, \
-         patch("services.product_services.get_products") as mock_getproducts, \
-         patch("services.product_services.add_product") as mock_addproduct :
+    with patch("services.products_services.get_category") as mock_getcategory, \
+         patch("services.products_services.get_products") as mock_getproducts, \
+         patch("services.products_services.add_product") as mock_addproduct :
             mock_getcategory.return_value = Category()
             mock_getproducts.return_value = None
             mock_addproduct.return_value = Product()
@@ -62,7 +62,7 @@ def test_addproducts():
             assert result == {"mesage" : "Nike T-Shirt added successfully"}
 
 def test_addproducts_categorynotfound():
-    with patch("services.product_services.get_category") as mock_getcategory :
+    with patch("services.products_services.get_category") as mock_getcategory :
             mock_getcategory.return_value = None
             with pytest.raises(HTTPException) as exc:
                 addproduct(True,Data())
@@ -70,8 +70,8 @@ def test_addproducts_categorynotfound():
             assert exc.value.detail == "Category Not Found"
 
 def test_addproducts_productalreadyexsists():
-    with patch("services.product_services.get_category") as mock_getcategory, \
-         patch("services.product_services.get_products") as mock_getproducts:
+    with patch("services.products_services.get_category") as mock_getcategory, \
+         patch("services.products_services.get_products") as mock_getproducts:
             mock_getcategory.return_value = Category()
             mock_getproducts.return_value = Product()
             with pytest.raises(HTTPException) as exc:
@@ -80,9 +80,9 @@ def test_addproducts_productalreadyexsists():
             assert exc.value.detail == "Product Already Exists"
 
 def test_addproducts_internalservererror():
-    with patch("services.product_services.get_category") as mock_getcategory, \
-         patch("services.product_services.get_products") as mock_getproducts, \
-         patch("services.product_services.add_product") as mock_addproduct :
+    with patch("services.products_services.get_category") as mock_getcategory, \
+         patch("services.products_services.get_products") as mock_getproducts, \
+         patch("services.products_services.add_product") as mock_addproduct :
             mock_getcategory.return_value = Category()
             mock_getproducts.return_value = None
             mock_addproduct.return_value = None
@@ -97,15 +97,15 @@ def test_addproducts_noadmin():
 
 #Update Products
 def test_updateproduct():
-    with patch("services.product_services.get_products") as mock_getproducts, \
-         patch("services.product_services.update_product_details") as mock_udpateproduct :
+    with patch("services.products_services.get_products") as mock_getproducts, \
+         patch("services.products_services.update_product_details") as mock_udpateproduct :
             mock_getproducts.return_value = [Product()]
             mock_udpateproduct.return_value = [Product()]
             result = updateproduct(True,UpdateData(),"Nike T-Shirt")
             assert result == {"mesage" : "Nike T-Shirt details updated successfully"}
 
 def test_updateproduct_notfound():
-    with patch("services.product_services.get_products") as mock_getproducts :
+    with patch("services.products_services.get_products") as mock_getproducts :
             mock_getproducts.return_value = []
             with pytest.raises(HTTPException) as exc:
                 updateproduct(True,UpdateData(),"Nike T-Shirt")
@@ -113,8 +113,8 @@ def test_updateproduct_notfound():
             assert exc.value.detail == "Product Not Found"
 
 def test_updateproduct_internalservererror():
-    with patch("services.product_services.get_products") as mock_getproducts, \
-         patch("services.product_services.update_product_details") as mock_udpateproduct :
+    with patch("services.products_services.get_products") as mock_getproducts, \
+         patch("services.products_services.update_product_details") as mock_udpateproduct :
             mock_getproducts.return_value = [Product()]
             mock_udpateproduct.return_value = None
             with pytest.raises(HTTPException) as exc:
@@ -128,8 +128,8 @@ def test_updateproduct_notadmin():
 
 #Delete Product
 def test_deleteproduct():
-    with patch("services.product_services.get_products") as mock_getproducts, \
-         patch("services.product_services.delete_product") as mock_deletepprodcut :
+    with patch("services.products_services.get_products") as mock_getproducts, \
+         patch("services.products_services.delete_product") as mock_deletepprodcut :
             product = [Product()]
             mock_getproducts.return_value = product
             mock_deletepprodcut.return_value = product
@@ -137,7 +137,7 @@ def test_deleteproduct():
             assert res == {"message" : "Nike T-Shirt deleted successfully"}
 
 def test_deleteproduct_productnotfound():
-    with patch("services.product_services.get_products") as mock_getproducts:
+    with patch("services.products_services.get_products") as mock_getproducts:
             mock_getproducts.return_value = None
             with pytest.raises(HTTPException) as exc:
                 deleteproduct(True,"Nike T-Shirt")
@@ -145,8 +145,8 @@ def test_deleteproduct_productnotfound():
             assert exc.value.detail == "Product Not Found"
 
 def test_deleteproduct_internalservererror():
-    with patch("services.product_services.get_products") as mock_getproducts, \
-         patch("services.product_services.delete_product") as mock_deletepprodcut :
+    with patch("services.products_services.get_products") as mock_getproducts, \
+         patch("services.products_services.delete_product") as mock_deletepprodcut :
             product = [Product()]
             mock_getproducts.return_value = product
             mock_deletepprodcut.return_value = None
@@ -161,7 +161,7 @@ def test_deleteproduct_notadmin():
 
 #Get Category
 def test_getcategories():
-    with patch("services.product_services.get_all_categories") as mock_getcategories :
+    with patch("services.products_services.get_all_categories") as mock_getcategories :
             category = Category()
             mock_getcategories.return_value = category
             res = getcategories(True)
@@ -173,15 +173,15 @@ def test_getcategories_notadmin():
 
 #Add category
 def test_addcategory():
-    with patch("services.product_services.get_category") as mock_getcategory, \
-         patch("services.product_services.add_category") as mock_addcategory :
+    with patch("services.products_services.get_category") as mock_getcategory, \
+         patch("services.products_services.add_category") as mock_addcategory :
             mock_getcategory.return_value = None
             mock_addcategory.return_value = Category()
             res = addcategory(True,"shirt")
             assert res == {"message" : "shirt added successfully"}
 
 def test_addcategory_alreadyexists():
-    with patch("services.product_services.get_category") as mock_getcategory :
+    with patch("services.products_services.get_category") as mock_getcategory :
             mock_getcategory.return_value = Category
             with pytest.raises(HTTPException) as exc:
                 addcategory(True,"shirt")
@@ -189,8 +189,8 @@ def test_addcategory_alreadyexists():
             assert exc.value.detail == "Category Already Exists"
 
 def test_addcategory_internalservererror():
-    with patch("services.product_services.get_category") as mock_getcategory, \
-         patch("services.product_services.add_category") as mock_addcategory :
+    with patch("services.products_services.get_category") as mock_getcategory, \
+         patch("services.products_services.add_category") as mock_addcategory :
             mock_getcategory.return_value = None
             mock_addcategory.return_value = None
             with pytest.raises(HTTPException) as exc :
@@ -204,15 +204,15 @@ def test_addcategory_notadmin():
 
 #Delete Category
 def test_deletecategory():
-    with patch("services.product_services.get_category") as mock_get_category, \
-         patch("services.product_services.delete_category") as mock_deletecategory :
+    with patch("services.products_services.get_category") as mock_get_category, \
+         patch("services.products_services.delete_category") as mock_deletecategory :
             mock_get_category.return_value = Category()
             mock_deletecategory.return_value = Category()
             res = deletecategory(True,"jeans")
             assert res == {"message" : "jeans deleted successfully"}
 
 def test_deletecategory_notfound():
-    with patch("services.product_services.get_category") as mock_get_category :
+    with patch("services.products_services.get_category") as mock_get_category :
             mock_get_category.return_value = None
             with pytest.raises(HTTPException) as exc:
                 deletecategory(True,"jeans")
@@ -220,8 +220,8 @@ def test_deletecategory_notfound():
             assert exc.value.detail == "Category Not Found"
 
 def test_deletecategory_internalservererror():
-    with patch("services.product_services.get_category") as mock_get_category, \
-         patch("services.product_services.delete_category") as mock_deletecategory :
+    with patch("services.products_services.get_category") as mock_get_category, \
+         patch("services.products_services.delete_category") as mock_deletecategory :
             mock_get_category.return_value = Category()
             mock_deletecategory.return_value = None
             with pytest.raises(HTTPException) as exc:
@@ -235,7 +235,7 @@ def test_delete_notadmin():
 
 #Img Uploader
 def test_imageuploader():
-    with patch("services.product_services.uploader.upload") as mock_upload:
+    with patch("services.products_services.uploader.upload") as mock_upload:
         mock_upload.return_value = UploadedFile
         res = imguploader(True,File())
         assert res == "https://example.com/image.jpg"

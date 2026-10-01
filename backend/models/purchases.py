@@ -1,13 +1,12 @@
 from config.database import Base
-from sqlalchemy import Column,Integer,String,Float,DateTime,ForeignKey
+from sqlalchemy import Column,Integer,Float,DateTime,ForeignKey
 from datetime import date,UTC
 
 
 class Purchase(Base):
     __tablename__ = "purchase"
     puid = Column(Integer,primary_key=True,autoincrement=True)
-    pname = Column(String,nullable=False)
-    size = Column(String,nullable=False)
+    pid =Column(Integer,ForeignKey("products.pid",ondelete="CASCADE"))
     quantity = Column(Integer,nullable=False)
     price = Column(Float,nullable=False)
     supplier = Column(Integer,ForeignKey("suppliers.suid",ondelete="CASCADE"))
@@ -18,10 +17,9 @@ def get_purchases(db):
     purchases = db.query(Purchase).all()
     return {"purchases" : purchases}
 
-def add_purchase(db,pname,size,quantity,price,supplier,):
+def add_purchase(db,pid,quantity,price,supplier,):
     purchse = Purchase(
-        pname = pname,
-        size = size,
+        pid = pid,
         quantity = quantity,
         price = price,
         supplier = supplier

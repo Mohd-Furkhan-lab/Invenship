@@ -45,10 +45,10 @@ apayload = {
 
 #User Login
 def test_login():
-    with patch("services.user_services.get_user")  as mock_get_user , \
-         patch("services.user_services.checkpw") as mock_checkpw, \
-         patch("services.user_services.create_access_token") as mock_atoken, \
-         patch("services.user_services.create_refresh_token") as mock_rtoken : 
+    with patch("services.users_services.get_user")  as mock_get_user , \
+         patch("services.users_services.checkpw") as mock_checkpw, \
+         patch("services.users_services.create_access_token") as mock_atoken, \
+         patch("services.users_services.create_refresh_token") as mock_rtoken : 
             mock_get_user.return_value = User
             mock_checkpw.return_value = True
             mock_atoken.return_value = "afdsbiubopubp598h9  nb9yh hy9h495npohpubhjf"
@@ -57,7 +57,7 @@ def test_login():
             assert result == ["afdsbiubopubp598h9  nb9yh hy9h495npohpubhjf","asdf98hg9ing9 n98h3nkjn 98"]
 
 def test_login_usernotfound():
-    with patch("services.user_services.get_user")  as mock_get_user : 
+    with patch("services.users_services.get_user")  as mock_get_user : 
             mock_get_user.return_value = None
             with pytest.raises(HTTPException) as e:
                 userlogin(Data())
@@ -65,8 +65,8 @@ def test_login_usernotfound():
             assert e.value.detail == "User Not Found"
 
 def test_login_invalidcredentails():
-    with patch("services.user_services.get_user")  as mock_get_user , \
-         patch("services.user_services.checkpw") as mock_checkpw : 
+    with patch("services.users_services.get_user")  as mock_get_user , \
+         patch("services.users_services.checkpw") as mock_checkpw : 
             mock_get_user.return_value = User
             mock_checkpw.return_value = False
             with pytest.raises(HTTPException) as e:
@@ -76,8 +76,8 @@ def test_login_invalidcredentails():
 
 #Toekn Checker
 def test_istokenrevoked_access():
-    with patch("services.user_services.r.get") as mock_rget , \
-         patch("services.user_services.is_revoked") as mock_is_revoked :
+    with patch("services.users_services.r.get") as mock_rget , \
+         patch("services.users_services.is_revoked") as mock_is_revoked :
             mock_rget.return_value = "1"
             mock_is_revoked.return_value = None
             with pytest.raises(HTTPException) as e:
@@ -86,8 +86,8 @@ def test_istokenrevoked_access():
             assert e.value.detail == "Token Revoked"
 
 def test_istokenrevoked_refresh():
-    with patch("services.user_services.r.get") as mock_rget , \
-         patch("services.user_services.is_revoked") as mock_is_revoked :
+    with patch("services.users_services.r.get") as mock_rget , \
+         patch("services.users_services.is_revoked") as mock_is_revoked :
             mock_rget.return_value = None
             mock_is_revoked.return_value = "asdfasdfasdf"
             with pytest.raises(HTTPException) as e:
@@ -97,8 +97,8 @@ def test_istokenrevoked_refresh():
 
 #User Info
 def test_get_details():
-    with patch("services.user_services.get_details") as mock_get_user, \
-         patch("services.user_services.istokenrevoked") as mock_isrevoekd:
+    with patch("services.users_services.get_details") as mock_get_user, \
+         patch("services.users_services.istokenrevoked") as mock_isrevoekd:
             user = Details()
             mock_get_user.return_value = user
             mock_isrevoekd.return_value = None
@@ -106,8 +106,8 @@ def test_get_details():
             assert result == {"details" : user}
 
 def test_get_details_usernotfound():
-    with patch("services.user_services.get_details") as mock_get_user, \
-         patch("services.user_services.istokenrevoked") as mock_isrevoekd:
+    with patch("services.users_services.get_details") as mock_get_user, \
+         patch("services.users_services.istokenrevoked") as mock_isrevoekd:
             mock_get_user.return_value = None
             mock_isrevoekd.return_value = None
             with pytest.raises(HTTPException) as e:
@@ -116,8 +116,8 @@ def test_get_details_usernotfound():
             assert e.value.detail == "User Not Found"
 
 def test_get_details_revokedtoken():
-    with patch("services.user_services.get_details") as mock_get_user, \
-         patch("services.user_services.istokenrevoked") as mock_isrevoekd:
+    with patch("services.users_services.get_details") as mock_get_user, \
+         patch("services.users_services.istokenrevoked") as mock_isrevoekd:
             user = Details()
             mock_get_user.return_value = user
             mock_isrevoekd.side_effect = HTTPException(401,detail = "Token Revoked")
@@ -128,11 +128,11 @@ def test_get_details_revokedtoken():
             
 #User Change Password
 def test_changepassword():
-    with patch("services.user_services.istokenrevoked") as mock_tokenrevoked , \
-         patch("services.user_services.get_user") as mock_getuser , \
-         patch("services.user_services.checkpw") as mock_checkpw , \
-         patch("services.user_services.hashpw") as mock_hashpw , \
-         patch("services.user_services.change_password") as mock_change_password :
+    with patch("services.users_services.istokenrevoked") as mock_tokenrevoked , \
+         patch("services.users_services.get_user") as mock_getuser , \
+         patch("services.users_services.checkpw") as mock_checkpw , \
+         patch("services.users_services.hashpw") as mock_hashpw , \
+         patch("services.users_services.change_password") as mock_change_password :
             mock_tokenrevoked.return_value = None
             mock_getuser.return_value = User
             mock_checkpw.return_value = True
@@ -142,8 +142,8 @@ def test_changepassword():
             assert result == {"message" : "passowrd updated successfully"}
 
 def test_changepassword_usernotfound():
-    with patch("services.user_services.istokenrevoked") as mock_tokenrevoked , \
-         patch("services.user_services.get_user") as mock_getuser :
+    with patch("services.users_services.istokenrevoked") as mock_tokenrevoked , \
+         patch("services.users_services.get_user") as mock_getuser :
             mock_tokenrevoked.return_value = None
             mock_getuser.return_value = None
             with pytest.raises(HTTPException) as e:
@@ -152,9 +152,9 @@ def test_changepassword_usernotfound():
             assert e.value.detail == "User Not Found"
 
 def test_changepassword_wrongcredentails():
-    with patch("services.user_services.istokenrevoked") as mock_tokenrevoked , \
-         patch("services.user_services.get_user") as mock_getuser , \
-         patch("services.user_services.checkpw") as mock_checkpw :
+    with patch("services.users_services.istokenrevoked") as mock_tokenrevoked , \
+         patch("services.users_services.get_user") as mock_getuser , \
+         patch("services.users_services.checkpw") as mock_checkpw :
             mock_tokenrevoked.return_value = None
             mock_getuser.return_value = User
             mock_checkpw.return_value = False
@@ -164,11 +164,11 @@ def test_changepassword_wrongcredentails():
             assert e.value.detail == "Invalid Old Password"
 
 def test_changepassword_internalservererror():
-    with patch("services.user_services.istokenrevoked") as mock_tokenrevoked , \
-         patch("services.user_services.get_user") as mock_getuser , \
-         patch("services.user_services.checkpw") as mock_checkpw , \
-         patch("services.user_services.hashpw") as mock_hashpw , \
-         patch("services.user_services.change_password") as mock_change_password :
+    with patch("services.users_services.istokenrevoked") as mock_tokenrevoked , \
+         patch("services.users_services.get_user") as mock_getuser , \
+         patch("services.users_services.checkpw") as mock_checkpw , \
+         patch("services.users_services.hashpw") as mock_hashpw , \
+         patch("services.users_services.change_password") as mock_change_password :
             mock_tokenrevoked.return_value = None
             mock_getuser.return_value = User
             mock_checkpw.return_value = True
@@ -181,9 +181,9 @@ def test_changepassword_internalservererror():
 
 # User Logout
 def test_userlogout():
-    with patch("services.user_services.r.set") as mock_rset, \
-         patch("services.user_services.revoketoken") as mock_revoketoken, \
-         patch("services.user_services.time.time") as mock_time:
+    with patch("services.users_services.r.set") as mock_rset, \
+         patch("services.users_services.revoketoken") as mock_revoketoken, \
+         patch("services.users_services.time.time") as mock_time:
 
             mock_time.return_value = 1000
             mock_rset.return_value = True
@@ -208,9 +208,9 @@ def test_userlogout():
 
 
 def test_userlogout_internalservererror():
-    with patch("services.user_services.r.set") as mock_rset, \
-         patch("services.user_services.revoketoken") as mock_revoketoken, \
-         patch("services.user_services.time.time") as mock_time:
+    with patch("services.users_services.r.set") as mock_rset, \
+         patch("services.users_services.revoketoken") as mock_revoketoken, \
+         patch("services.users_services.time.time") as mock_time:
             mock_time.return_value = 1000
             mock_rset.return_value = True
             mock_revoketoken.return_value = None
@@ -221,8 +221,8 @@ def test_userlogout_internalservererror():
 
 # Refresh Token
 def test_refreshtoken():
-    with patch("services.user_services.istokenrevoked") as mock_tokenrevoked, \
-         patch("services.user_services.create_access_token") as mock_atoken:
+    with patch("services.users_services.istokenrevoked") as mock_tokenrevoked, \
+         patch("services.users_services.create_access_token") as mock_atoken:
             mock_tokenrevoked.return_value = None
             mock_atoken.return_value = "new_access_token"
             result = refreshtoken(rpayload)
@@ -230,8 +230,8 @@ def test_refreshtoken():
 
 
 def test_refreshtoken_internalservererror():
-    with patch("services.user_services.istokenrevoked") as mock_tokenrevoked, \
-         patch("services.user_services.create_access_token") as mock_atoken:
+    with patch("services.users_services.istokenrevoked") as mock_tokenrevoked, \
+         patch("services.users_services.create_access_token") as mock_atoken:
             mock_tokenrevoked.return_value = None
             mock_atoken.return_value = None
             with pytest.raises(HTTPException) as e:

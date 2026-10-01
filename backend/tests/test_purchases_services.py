@@ -26,6 +26,13 @@ class Purchase():
     price = 599.0
     suid = 1
 
+class Product():
+    pid = 1
+    pname = "Nike T-Shirt"
+    brand = "Nike"
+    size = "M"
+    price = 999
+    stock = 20
 
 # Get Purchases
 def test_getpurchases():
@@ -51,8 +58,10 @@ def test_getpurchases_notadmin():
 # Add Purchases
 def test_addpurchases():
     with patch("services.purchases_services.get_supplier") as mock_getsupplier, \
+         patch("services.purchases_services.get_products") as mock_getproducts, \
          patch("services.purchases_services.add_purchase") as mock_addpurchase:
             mock_getsupplier.return_value = Supplier()
+            mock_getproducts.return_value = [Product()]
             mock_addpurchase.return_value = Purchase()
             result = addpurchases(True, Data())
             assert result == {"message": "Purchase Added"}
@@ -65,10 +74,22 @@ def test_addpurchases_suppliernotfound():
             assert exc.value.status_code == 404
             assert exc.value.detail == "Supplier Not Found"
 
+def test_addpurchases_productnotfound():
+    with patch("services.purchases_services.get_supplier") as mock_getsupplier, \
+         patch("services.purchases_services.get_products") as mock_getproducts :
+            mock_getsupplier.return_value = Supplier()
+            mock_getproducts.return_value = []
+            with pytest.raises(HTTPException) as exc:
+                addpurchases(True, Data())
+            assert exc.value.status_code == 404
+            assert exc.value.detail == "Product Not Found"
+
 def test_addpurchases_internalservererror():
     with patch("services.purchases_services.get_supplier") as mock_getsupplier, \
+         patch("services.purchases_services.get_products") as mock_getproducts, \
          patch("services.purchases_services.add_purchase") as mock_addpurchase:
             mock_getsupplier.return_value = Supplier()
+            mock_getproducts.return_value = [Product()]
             mock_addpurchase.return_value = None
             with pytest.raises(HTTPException) as exc:
                 addpurchases(True, Data())
