@@ -1,9 +1,11 @@
 from fastapi import HTTPException
 from jwt import encode,decode,ExpiredSignatureError,InvalidTokenError
 from datetime import datetime,timedelta,UTC
-from dotenv import load_dotenv
 import os
+from env_loader import load_env
 import uuid
+
+load_env()
 
 def create_access_token(uid,role):
     payload = {
