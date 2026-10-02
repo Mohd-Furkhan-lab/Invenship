@@ -1,24 +1,38 @@
-from .db import engine
+from db import engine
 import pandas as pd
 
-# sales_data = pd.read_sql(
-#     "SELECT * from sales",
-#     engine
-# )
 
-purchase_data = pd.read_sql(
-    "SELECT * from purchase",
-    engine
-)
+def get_sales_data():
+    df = pd.read_sql(
+        "SELECT * FROM sales",
+        engine
+    )
 
-product_data = pd.read_sql(
-    "SELECT * from products",
-    engine
-)
+    return df
 
-with open("products.csv", "w") as file:
 
-    file.write(",".join(product_data.columns) + "\n")
+def get_product_data():
+    df = pd.read_sql(
+        "SELECT * FROM products",
+        engine
+    )
 
-    for row in product_data.itertuples(index=False):
-        file.write(",".join(map(str, row)) + "\n")
+    return df
+
+
+def get_purchase_data():
+    df = pd.read_sql(
+        "SELECT * FROM purchase",
+        engine
+    )
+
+    return df
+
+
+def get_supplier_data():
+    df = pd.read_sql(
+        "SELECT * FROM suppliers",
+        engine
+    )
+
+    return df
