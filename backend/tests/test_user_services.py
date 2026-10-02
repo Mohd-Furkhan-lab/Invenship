@@ -1,7 +1,7 @@
 import pytest
 from fastapi import HTTPException
 from unittest.mock import patch
-from services.users_services import getinfo,userlogin,istokenrevoked,changepassword,userlogout,refreshtoken
+from backend.services.users_services import getinfo,userlogin,istokenrevoked,changepassword,userlogout,refreshtoken
 
 class Details():
     username = "sohail"

@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
-from services.admin_services import getusers,adduser,updaterole,deleteuser
-from schemas.admin_schemas import AddUser,UpdateRole
-from dependecies.admin_dependecy import is_admin
+from backend.services.admin_services import getusers,adduser,updaterole,deleteuser
+from backend.schemas.admin_schemas import AddUser,UpdateRole
+from backend.dependecies.admin_dependecy import is_admin
 
 admin = APIRouter(prefix="/admin",tags=["admin"])
 

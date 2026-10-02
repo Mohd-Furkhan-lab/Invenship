@@ -1,10 +1,10 @@
 from fastapi import HTTPException
-from models.user import get_details,get_user,change_password
-from models.revoked_token import revoketoken,is_revoked
-from auth.token import create_access_token,create_refresh_token
+from backend.models.user import get_details,get_user,change_password
+from backend.models.revoked_token import revoketoken,is_revoked
+from backend.auth.token import create_access_token,create_refresh_token
 from bcrypt import checkpw,hashpw,gensalt
-from config.database import SesssionLocal
-from config.redis import r
+from backend.config.database import SesssionLocal
+from backend.config.redis import r
 import time
 
 def userlogin(data):

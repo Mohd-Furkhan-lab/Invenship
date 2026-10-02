@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
-from schemas.purchases_schemas import AddPurchase
-from services.purchases_services import getpurchases,addpurchases,clearhistory
-from dependecies.admin_dependecy import is_admin
+from backend.schemas.purchases_schemas import AddPurchase
+from backend.services.purchases_services import getpurchases,addpurchases,clearhistory
+from backend.dependecies.admin_dependecy import is_admin
 
 purchase = APIRouter(prefix="/purchases",tags=["purchases"])
 

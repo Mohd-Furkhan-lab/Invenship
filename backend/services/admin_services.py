@@ -1,6 +1,6 @@
 from fastapi import HTTPException
-from models.user import get_user,add_user,update_role,delete_user
-from config.database import SesssionLocal
+from backend.models.user import get_user,add_user,update_role,delete_user
+from backend.config.database import SesssionLocal
 from bcrypt import hashpw,gensalt
 
 def getusers(is_admin,email):

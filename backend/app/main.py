@@ -1,13 +1,15 @@
 from fastapi import FastAPI
-from routes.users import users
-from routes.products import products
-from routes.sales import sales
-from routes.suppliers import suppliers
-from routes.purchases import purchase
-from routes.admin import admin
+from backend.routes.users import users
+from backend.routes.products import products
+from backend.routes.sales import sales
+from backend.routes.suppliers import suppliers
+from backend.routes.purchases import purchase
+from backend.routes.admin import admin
+from backend.routes.analysis import analysis
 
 app = FastAPI()
 app.include_router(users)
+app.include_router(analysis)
 app.include_router(admin)
 app.include_router(products)
 app.include_router(sales)

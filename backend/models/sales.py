@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey, func
-from models.products import  Products
-from config.database import Base
+from backend.models.products import  Products
+from backend.config.database import Base
 
 
 class Sales(Base):

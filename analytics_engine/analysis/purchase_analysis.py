@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data.data import get_purchase_data
+from analytics_engine.data.data import get_purchase_data
 
 
 def _purchase_df() -> pd.DataFrame:

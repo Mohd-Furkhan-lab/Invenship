@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from unittest.mock import patch
 import pytest
-from services.sales_services import getsales,addsales,deletesales
+from backend.services.sales_services import getsales,addsales,deletesales
 
 class Data():
     name="Nike T-Shirt"

@@ -1,4 +1,4 @@
-from db import engine
+from analytics_engine.data.db import engine
 import pandas as pd
 
 

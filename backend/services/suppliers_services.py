@@ -1,5 +1,5 @@
-from models.suppliers import get_supplier,add_supplier,remove_supplier
-from config.database import SesssionLocal
+from backend.models.suppliers import get_supplier,add_supplier,remove_supplier
+from backend.config.database import SesssionLocal
 from fastapi import HTTPException
 
 def getsuppliers(is_admin,name = None):

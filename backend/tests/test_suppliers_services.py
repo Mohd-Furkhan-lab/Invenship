@@ -1,7 +1,7 @@
 import pytest
 from fastapi import HTTPException
 from unittest.mock import patch
-from services.suppliers_services import getsuppliers, addsupplier, removesuppliers
+from backend.services.suppliers_services import getsuppliers, addsupplier, removesuppliers
 
 
 class Data():

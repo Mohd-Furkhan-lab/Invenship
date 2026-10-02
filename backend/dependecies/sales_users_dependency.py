@@ -1,5 +1,5 @@
 from fastapi import HTTPException,Request
-from auth.token import verify_token
+from backend.auth.token import verify_token
 
 def require_admin_or_receptionist(request : Request):
     token = request.cookies.get("access")

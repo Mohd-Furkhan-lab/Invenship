@@ -1,5 +1,5 @@
 from fastapi import Request,HTTPException
-from auth.token import verify_token
+from backend.auth.token import verify_token
 
 def get_access_payload(request:Request):
     token = request.cookies.get("access")

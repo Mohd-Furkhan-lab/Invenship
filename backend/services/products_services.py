@@ -1,6 +1,6 @@
-from models.products import get_products,add_product,update_product_details,delete_product
-from models.category import get_category,add_category,delete_category,get_all_categories
-from config.database import SesssionLocal
+from backend.models.products import get_products,add_product,update_product_details,delete_product
+from backend.models.category import get_category,add_category,delete_category,get_all_categories
+from backend.config.database import SesssionLocal
 from fastapi import HTTPException
 from cloudinary import uploader
 

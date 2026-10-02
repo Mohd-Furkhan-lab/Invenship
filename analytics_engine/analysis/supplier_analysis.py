@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data.data import get_purchase_data, get_supplier_data
+from analytics_engine.data.data import get_purchase_data, get_supplier_data
 
 OUT_COLS = ["suid", "name", "total_quantity", "total_purchase_cost"]
 

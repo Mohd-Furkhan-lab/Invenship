@@ -1,4 +1,4 @@
-from auth.token import verify_token
+from backend.auth.token import verify_token
 from fastapi import Request,HTTPException
 
 def is_admin(request:Request):

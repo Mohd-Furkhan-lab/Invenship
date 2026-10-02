@@ -1,4 +1,4 @@
-from config.database  import Base
+from backend.config.database  import Base
 from sqlalchemy import Column,Integer,String,Boolean
 
 class TokenBlacklist(Base):

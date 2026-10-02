@@ -1,8 +1,8 @@
 from fastapi import APIRouter,Depends
-from dependecies.sales_users_dependency import require_admin_or_receptionist
-from dependecies.admin_dependecy import is_admin
-from schemas.sales_schemas import AddSales
-from services.sales_services import getsales,addsales,deletesales
+from backend.dependecies.sales_users_dependency import require_admin_or_receptionist
+from backend.dependecies.admin_dependecy import is_admin
+from backend.schemas.sales_schemas import AddSales
+from backend.services.sales_services import getsales,addsales,deletesales
 
 sales = APIRouter(prefix="/sales",tags=["sales"])
 

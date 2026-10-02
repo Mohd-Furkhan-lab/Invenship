@@ -1,7 +1,7 @@
 import pytest
 from fastapi import HTTPException
 from unittest.mock import patch
-from services.purchases_services import getpurchases, addpurchases, clearhistory
+from backend.services.purchases_services import getpurchases, addpurchases, clearhistory
 
 
 class Data():

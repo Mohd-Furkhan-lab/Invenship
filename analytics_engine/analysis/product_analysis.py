@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data.data import get_product_data
+from analytics_engine.data.data import get_product_data
 
 PRODUCT_COLS = ["pid", "pname", "brand", "size", "price", "stock"]
 

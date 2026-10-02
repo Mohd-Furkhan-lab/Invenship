@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data.data import get_sales_data
+from analytics_engine.data.data import get_sales_data
 
 
 def _sales_df() -> pd.DataFrame:

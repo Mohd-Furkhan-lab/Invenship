@@ -1,7 +1,7 @@
 from fastapi import HTTPException
-from models.sales import get_sales,add_sales,delete_sales
-from models.products import get_products,update_stock
-from config.database import SesssionLocal
+from backend.models.sales import get_sales,add_sales,delete_sales
+from backend.models.products import get_products,update_stock
+from backend.config.database import SesssionLocal
 
 def getsales(is_auth):
     if is_auth:

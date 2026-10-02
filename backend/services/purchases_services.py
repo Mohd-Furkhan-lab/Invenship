@@ -1,8 +1,8 @@
 from fastapi import HTTPException
-from models.purchases import get_purchases,add_purchase,delete_purchase
-from models.suppliers import get_supplier
-from models.products import get_products
-from config.database import SesssionLocal
+from backend.models.purchases import get_purchases,add_purchase,delete_purchase
+from backend.models.suppliers import get_supplier
+from backend.models.products import get_products
+from backend.config.database import SesssionLocal
 
 
 def getpurchases(is_admin):

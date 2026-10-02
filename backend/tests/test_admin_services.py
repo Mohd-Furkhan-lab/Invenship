@@ -1,7 +1,7 @@
 import pytest
 from fastapi import HTTPException
 from unittest.mock import patch, MagicMock
-from services.admin_services import getusers, adduser, updaterole, deleteuser
+from backend.services.admin_services import getusers, adduser, updaterole, deleteuser
 
 
 class Data():
