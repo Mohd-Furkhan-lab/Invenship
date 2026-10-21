@@ -28,7 +28,7 @@ class Product():
 
 #GetSales
 def test_getsales():
-    with patch("services.sales_services.get_sales") as mock_getsales:
+    with patch("backend.services.sales_services.get_sales") as mock_getsales:
         sales = Sales()
         mock_getsales.return_value = sales
         result = getsales(True)
@@ -40,9 +40,9 @@ def test_getsales_notadmin():
 
 #AddSales
 def test_addsales():
-    with patch("services.sales_services.get_products") as mock_getproducts, \
-         patch("services.sales_services.add_sales") as mock_addproducts, \
-         patch("services.sales_services.update_stock") as mock_updatestock :
+    with patch("backend.services.sales_services.get_products") as mock_getproducts, \
+         patch("backend.services.sales_services.add_sales") as mock_addproducts, \
+         patch("backend.services.sales_services.update_stock") as mock_updatestock :
             product = [Product()]
             mock_getproducts.return_value = product
             mock_addproducts.return_value = Sales()
@@ -51,7 +51,7 @@ def test_addsales():
             assert result == {"message" : "Sales Added Successfully"}
 
 def test_addsales_prodcut_notfound():
-    with patch("services.sales_services.get_products") as mock_getproducts:
+    with patch("backend.services.sales_services.get_products") as mock_getproducts:
             mock_getproducts.return_value = []
             with pytest.raises(HTTPException) as exc:
                 addsales(True,Data())
@@ -59,7 +59,7 @@ def test_addsales_prodcut_notfound():
             assert exc.value.detail == "Product Not Found"
 
 def test_addsales_emptystock():
-    with patch("services.sales_services.get_products") as mock_getproducts:
+    with patch("backend.services.sales_services.get_products") as mock_getproducts:
             product = [Product()]
             product[0].stock = 0 
             mock_getproducts.return_value = product
@@ -69,9 +69,9 @@ def test_addsales_emptystock():
             assert exc.value.detail == "Stock is empty"
 
 def test_addsales_internalservererror():
-    with patch("services.sales_services.get_products") as mock_getproducts, \
-         patch("services.sales_services.add_sales") as mock_addproducts, \
-         patch("services.sales_services.update_stock") as mock_updatestock :
+    with patch("backend.services.sales_services.get_products") as mock_getproducts, \
+         patch("backend.services.sales_services.add_sales") as mock_addproducts, \
+         patch("backend.services.sales_services.update_stock") as mock_updatestock :
             product = [Product()]
             mock_getproducts.return_value = product
             mock_addproducts.return_value = None
@@ -87,13 +87,13 @@ def test_addsales_notadmin():
 
 #DeleteSales
 def test_deletesales():
-    with patch("services.sales_services.delete_sales") as mock_deletesales:
+    with patch("backend.services.sales_services.delete_sales") as mock_deletesales:
         mock_deletesales.return_value = Product()
         res = deletesales(True)
         assert res == {"message" : "Sales Deleted Successfully"} 
 
 def test_deletesales_internalservererror():
-    with patch("services.sales_services.delete_sales") as mock_deletesales:
+    with patch("backend.services.sales_services.delete_sales") as mock_deletesales:
         mock_deletesales.return_value = None
         with pytest.raises(HTTPException) as exc:
             deletesales(True)

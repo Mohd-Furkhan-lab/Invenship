@@ -7,9 +7,9 @@ class Purchase(Base):
     __tablename__ = "purchase"
     puid = Column(Integer,primary_key=True,autoincrement=True)
     pid =Column(Integer,ForeignKey("products.pid",ondelete="CASCADE"))
+    supplier = Column(Integer,ForeignKey("suppliers.suid",ondelete="CASCADE"))
     quantity = Column(Integer,nullable=False)
     price = Column(Float,nullable=False)
-    supplier = Column(Integer,ForeignKey("suppliers.suid",ondelete="CASCADE"))
     date = Column(DateTime,default=date.today())
 
 
@@ -18,15 +18,15 @@ def get_purchases(db):
     return {"purchases" : purchases}
 
 def add_purchase(db,pid,quantity,price,supplier,):
-    purchse = Purchase(
+    purchase = Purchase(
         pid = pid,
         quantity = quantity,
         price = price,
         supplier = supplier
     )
-    db.add(purchse)
+    db.add(purchase)
     db.flush()
-    return purchse
+    return purchase
 
 def delete_purchase(db):
     purchses = db.query(Purchase).all()

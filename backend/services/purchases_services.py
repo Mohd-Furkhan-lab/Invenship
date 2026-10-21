@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from backend.models.purchases import get_purchases,add_purchase,delete_purchase
 from backend.models.suppliers import get_supplier
-from backend.models.products import get_products
+from backend.models.products import get_products,update_stock
 from backend.config.database import SesssionLocal
 
 
@@ -23,6 +23,7 @@ def addpurchases(is_admin,data):
             if product == []:
                 raise HTTPException(404,detail = "Product Not Found")
             res = add_purchase(db,product[0].pid,data.quantity,data.price,supplier.suid)
+            update_stock(db,product[0].pid,data.quantity)
             db.commit()
             if res is None:
                 raise HTTPException(500,detail="Internal Server Error")

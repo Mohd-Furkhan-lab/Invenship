@@ -1,4 +1,4 @@
-from mcp_server.mcp import tools
+from mcp_server.app import tools
 from analytics_engine.analysis.supplier_analysis import get_supplier_summary
 
 @tools.tool

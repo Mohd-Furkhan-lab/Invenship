@@ -10,7 +10,7 @@ class Products(Base):
     size = Column(String,nullable=False)
     brand = Column(String,nullable=False)
     price = Column(Float,nullable=False)
-    stock = Column(Integer,nullable=False)
+    stock = Column(Integer,nullable=False,default=0)
 
 def get_products(db,pname=None, brand=None, size=None):
         query = db.query(Products)

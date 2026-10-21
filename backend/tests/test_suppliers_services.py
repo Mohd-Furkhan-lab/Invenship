@@ -17,14 +17,14 @@ class Supplier():
 
 # Get Suppliers
 def test_getsuppliers():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier:
             supplier = Supplier()
             mock_getsupplier.return_value = supplier
             result = getsuppliers(True)
             assert result == {"data": supplier}
 
 def test_getsuppliers_notfound():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier:
             mock_getsupplier.return_value = None
             with pytest.raises(HTTPException) as exc:
                 getsuppliers(True)
@@ -38,15 +38,15 @@ def test_getsuppliers_notadmin():
 
 # Add Supplier
 def test_addsupplier():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier, \
-         patch("services.suppliers_services.add_supplier") as mock_addsupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.suppliers_services.add_supplier") as mock_addsupplier:
             mock_getsupplier.return_value = None
             mock_addsupplier.return_value = Supplier()
             result = addsupplier(True, Data())
             assert result == {"message": "supplier added successfullt"}
 
 def test_addsupplier_alreadyexists():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier:
             mock_getsupplier.return_value = Supplier()
             with pytest.raises(HTTPException) as exc:
                 addsupplier(True, Data())
@@ -54,8 +54,8 @@ def test_addsupplier_alreadyexists():
             assert exc.value.detail == "Supplier Already Exists"
 
 def test_addsupplier_internalservererror():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier, \
-         patch("services.suppliers_services.add_supplier") as mock_addsupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.suppliers_services.add_supplier") as mock_addsupplier:
             mock_getsupplier.return_value = None
             mock_addsupplier.return_value = None
             with pytest.raises(HTTPException) as exc:
@@ -70,8 +70,8 @@ def test_addsupplier_notadmin():
 
 # Remove Supplier
 def test_removesuppliers():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier, \
-         patch("services.suppliers_services.remove_supplier") as mock_removesupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.suppliers_services.remove_supplier") as mock_removesupplier:
             supplier = Supplier()
             mock_getsupplier.return_value = supplier
             mock_removesupplier.return_value = supplier
@@ -79,7 +79,7 @@ def test_removesuppliers():
             assert result == {"message": "supplier deleted successfully"}
 
 def test_removesuppliers_notfound():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier:
             mock_getsupplier.return_value = None
             with pytest.raises(HTTPException) as exc:
                 removesuppliers(True, "ABC Traders")
@@ -87,8 +87,8 @@ def test_removesuppliers_notfound():
             assert exc.value.detail == "Supplier Not Found"
 
 def test_removesuppliers_internalservererror():
-    with patch("services.suppliers_services.get_supplier") as mock_getsupplier, \
-         patch("services.suppliers_services.remove_supplier") as mock_removesupplier:
+    with patch("backend.services.suppliers_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.suppliers_services.remove_supplier") as mock_removesupplier:
             supplier = Supplier()
             mock_getsupplier.return_value = supplier
             mock_removesupplier.return_value = None

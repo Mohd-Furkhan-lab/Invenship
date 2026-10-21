@@ -1,4 +1,4 @@
-from mcp_server.mcp import tools
+from mcp_server.app import tools
 from analytics_engine.analysis.product_analysis import get_low_stock_products,get_inventory_summary,get_most_expensive_products,get_out_of_stock_products,get_products_by_brand
 
 @tools.tool
@@ -11,7 +11,7 @@ def inventory_summary():
 def low_stock():
     """Return the products that are running low on stock.
     Takes no arguments. Use for questions like 'which products need restocking soon'."""
-    return get_low_stock_products
+    return get_low_stock_products()
 
 @tools.tool
 def out_of_stock():

@@ -1,4 +1,4 @@
-from mcp_server.mcp import tools
+from mcp_server.app import tools
 from analytics_engine.analysis.purchase_analysis import get_purchase_summary,get_purchases_by_supplier,get_top_purchased_products
 
 @tools.tool

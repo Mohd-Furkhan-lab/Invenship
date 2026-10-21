@@ -5,11 +5,11 @@ from backend.services.purchases_services import getpurchases, addpurchases, clea
 
 
 class Data():
-    supplier = "ABC Traders"
     name = "Nike T-Shirt"
     size = "M"
     quantity = 10
     price = 599.0
+    supplier = "ABC Traders"
 
 
 class Supplier():
@@ -36,14 +36,14 @@ class Product():
 
 # Get Purchases
 def test_getpurchases():
-    with patch("services.purchases_services.get_purchases") as mock_getpurchases:
+    with patch("backend.services.purchases_services.get_purchases") as mock_getpurchases:
             purchase = [Purchase()]
             mock_getpurchases.return_value = purchase
             result = getpurchases(True)
             assert result == {"puchases": purchase}
 
 def test_getpurchases_internalservererror():
-    with patch("services.purchases_services.get_purchases") as mock_getpurchases:
+    with patch("backend.services.purchases_services.get_purchases") as mock_getpurchases:
             mock_getpurchases.return_value = None
             with pytest.raises(HTTPException) as exc:
                 getpurchases(True)
@@ -57,9 +57,9 @@ def test_getpurchases_notadmin():
 
 # Add Purchases
 def test_addpurchases():
-    with patch("services.purchases_services.get_supplier") as mock_getsupplier, \
-         patch("services.purchases_services.get_products") as mock_getproducts, \
-         patch("services.purchases_services.add_purchase") as mock_addpurchase:
+    with patch("backend.services.purchases_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.purchases_services.get_products") as mock_getproducts, \
+         patch("backend.services.purchases_services.add_purchase") as mock_addpurchase:
             mock_getsupplier.return_value = Supplier()
             mock_getproducts.return_value = [Product()]
             mock_addpurchase.return_value = Purchase()
@@ -67,7 +67,7 @@ def test_addpurchases():
             assert result == {"message": "Purchase Added"}
 
 def test_addpurchases_suppliernotfound():
-    with patch("services.purchases_services.get_supplier") as mock_getsupplier:
+    with patch("backend.services.purchases_services.get_supplier") as mock_getsupplier:
             mock_getsupplier.return_value = None
             with pytest.raises(HTTPException) as exc:
                 addpurchases(True, Data())
@@ -75,8 +75,8 @@ def test_addpurchases_suppliernotfound():
             assert exc.value.detail == "Supplier Not Found"
 
 def test_addpurchases_productnotfound():
-    with patch("services.purchases_services.get_supplier") as mock_getsupplier, \
-         patch("services.purchases_services.get_products") as mock_getproducts :
+    with patch("backend.services.purchases_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.purchases_services.get_products") as mock_getproducts :
             mock_getsupplier.return_value = Supplier()
             mock_getproducts.return_value = []
             with pytest.raises(HTTPException) as exc:
@@ -85,9 +85,9 @@ def test_addpurchases_productnotfound():
             assert exc.value.detail == "Product Not Found"
 
 def test_addpurchases_internalservererror():
-    with patch("services.purchases_services.get_supplier") as mock_getsupplier, \
-         patch("services.purchases_services.get_products") as mock_getproducts, \
-         patch("services.purchases_services.add_purchase") as mock_addpurchase:
+    with patch("backend.services.purchases_services.get_supplier") as mock_getsupplier, \
+         patch("backend.services.purchases_services.get_products") as mock_getproducts, \
+         patch("backend.services.purchases_services.add_purchase") as mock_addpurchase:
             mock_getsupplier.return_value = Supplier()
             mock_getproducts.return_value = [Product()]
             mock_addpurchase.return_value = None
@@ -103,8 +103,8 @@ def test_addpurchases_notadmin():
 
 # Clear History
 def test_clearhistory():
-    with patch("services.purchases_services.get_purchases") as mock_getpurchases, \
-         patch("services.purchases_services.delete_purchase") as mock_deletepurchase:
+    with patch("backend.services.purchases_services.get_purchases") as mock_getpurchases, \
+         patch("backend.services.purchases_services.delete_purchase") as mock_deletepurchase:
             purchase = [Purchase()]
             mock_getpurchases.return_value = purchase
             mock_deletepurchase.return_value = purchase
@@ -112,7 +112,7 @@ def test_clearhistory():
             assert result == {"message": "purchase history cleared"}
 
 def test_clearhistory_notfound():
-    with patch("services.purchases_services.get_purchases") as mock_getpurchases:
+    with patch("backend.services.purchases_services.get_purchases") as mock_getpurchases:
             mock_getpurchases.return_value = None
             with pytest.raises(HTTPException) as exc:
                 clearhistory(True)
@@ -120,8 +120,8 @@ def test_clearhistory_notfound():
             assert exc.value.detail == "Purchase History Not Found"
 
 def test_clearhistory_internalservererror():
-    with patch("services.purchases_services.get_purchases") as mock_getpurchases, \
-         patch("services.purchases_services.delete_purchase") as mock_deletepurchase:
+    with patch("backend.services.purchases_services.get_purchases") as mock_getpurchases, \
+         patch("backend.services.purchases_services.delete_purchase") as mock_deletepurchase:
             purchase = [Purchase()]
             mock_getpurchases.return_value = purchase
             mock_deletepurchase.return_value = None

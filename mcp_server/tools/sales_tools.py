@@ -1,4 +1,4 @@
-from mcp_server.mcp import tools
+from mcp_server.app import tools
 from analytics_engine.analysis.sales_analysis import get_sales_by_brand,get_sales_by_product,get_sales_by_size,get_sales_summary,get_top_revenue_products,get_top_selling_products
 
 @tools.tool

@@ -30,16 +30,16 @@ def mock_session(mock_sessionlocal):
 
 # Get Users
 def test_getusers():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = User()
             result = getusers(True, "john@example.com")
             assert result == {"data": mock_getuser.return_value}
 
 def test_getusers_internalservererror():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = None
             with pytest.raises(HTTPException) as exc:
@@ -54,9 +54,9 @@ def test_getusers_notadmin():
 
 # Add User
 def test_adduser():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser, \
-         patch("services.admin_services.add_user") as mock_adduser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser, \
+         patch("backend.services.admin_services.add_user") as mock_adduser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = None
             mock_adduser.return_value = User()
@@ -64,8 +64,8 @@ def test_adduser():
             assert result == {"message": "John Doe added succssfully"}
 
 def test_adduser_alreadyexists():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = User()
             with pytest.raises(HTTPException) as exc:
@@ -74,9 +74,9 @@ def test_adduser_alreadyexists():
             assert exc.value.detail == "User Already Exists"
 
 def test_adduser_internalservererror():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser, \
-         patch("services.admin_services.add_user") as mock_adduser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser, \
+         patch("backend.services.admin_services.add_user") as mock_adduser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = None
             mock_adduser.return_value = None
@@ -92,9 +92,9 @@ def test_adduser_notadmin():
 
 # Update Role
 def test_updaterole():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser, \
-         patch("services.admin_services.update_role") as mock_updaterole:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser, \
+         patch("backend.services.admin_services.update_role") as mock_updaterole:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = User()
             mock_updaterole.return_value = User()
@@ -102,8 +102,8 @@ def test_updaterole():
             assert result == {"message": "John Doe updated to admin"}
 
 def test_updaterole_notfound():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = None
             with pytest.raises(HTTPException) as exc:
@@ -112,9 +112,9 @@ def test_updaterole_notfound():
             assert exc.value.detail == "User Not Found"
 
 def test_updaterole_internalservererror():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser, \
-         patch("services.admin_services.update_role") as mock_updaterole:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser, \
+         patch("backend.services.admin_services.update_role") as mock_updaterole:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = User()
             mock_updaterole.return_value = None
@@ -130,9 +130,9 @@ def test_updaterole_notadmin():
 
 # Delete User
 def test_deleteuser():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser, \
-         patch("services.admin_services.delete_user") as mock_deleteuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser, \
+         patch("backend.services.admin_services.delete_user") as mock_deleteuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = User()
             mock_deleteuser.return_value = User()
@@ -140,8 +140,8 @@ def test_deleteuser():
             assert result == {"message": "John Doe deleted successfully"}
 
 def test_deleteuser_notfound():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = None
             with pytest.raises(HTTPException) as exc:
@@ -150,9 +150,9 @@ def test_deleteuser_notfound():
             assert exc.value.detail == "User Not Found"
 
 def test_deleteuser_internalservererror():
-    with patch("services.admin_services.SesssionLocal") as mock_sessionlocal, \
-         patch("services.admin_services.get_user") as mock_getuser, \
-         patch("services.admin_services.delete_user") as mock_deleteuser:
+    with patch("backend.services.admin_services.SesssionLocal") as mock_sessionlocal, \
+         patch("backend.services.admin_services.get_user") as mock_getuser, \
+         patch("backend.services.admin_services.delete_user") as mock_deleteuser:
             mock_session(mock_sessionlocal)
             mock_getuser.return_value = User()
             mock_deleteuser.return_value = None
